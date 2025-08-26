@@ -44,7 +44,15 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Create Release
+      - name: Archive build output
+        run: |
+          cd .next
+          zip -r ../next-build.zip .
+          cd ..
+
+      - name: Upload build artifact to release
         uses: softprops/action-gh-release@v2
+        with:
+          files: next-build.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
